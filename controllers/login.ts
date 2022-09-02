@@ -48,3 +48,27 @@ export const acceder = async (req: Request, res: Response) => {
         });
     }
 }
+
+
+export const renewToken = async (req: Request, res: Response) => {
+
+    const id = req.body.id;
+
+    try {
+        const token = await generarJWT(id);
+
+        const usuario = await Usuario.findByPk(id);
+
+        res.json({
+            ok: true,
+            token,
+            usuario
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Ocurrio un error, hable con el administrador'
+        });
+    }
+}

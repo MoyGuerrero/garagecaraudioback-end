@@ -7,11 +7,13 @@ const express_1 = require("express");
 const login_1 = require("../controllers/login");
 const express_validator_1 = require("express-validator");
 const validar_campos_1 = __importDefault(require("../middlewares/validar-campos"));
+const validar_jwt_1 = __importDefault(require("../middlewares/validar-jwt"));
 const router = (0, express_1.Router)();
 router.post('/acceder', [
     (0, express_validator_1.check)('usuario_', "El usuario es obligatorio").not().isEmpty(),
     (0, express_validator_1.check)('password', 'La contraseña es obligatoria').not().isEmpty(),
     validar_campos_1.default
 ], login_1.acceder);
+router.get('/renew', validar_jwt_1.default, login_1.renewToken);
 exports.default = router;
 //# sourceMappingURL=login.js.map

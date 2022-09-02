@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.acceder = void 0;
+exports.renewToken = exports.acceder = void 0;
 const usuario_1 = __importDefault(require("../models/usuario"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jwt_1 = __importDefault(require("../helpers/jwt"));
@@ -54,4 +54,24 @@ const acceder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.acceder = acceder;
+const renewToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.body.id;
+    try {
+        const token = yield (0, jwt_1.default)(id);
+        const usuario = yield usuario_1.default.findByPk(id);
+        res.json({
+            ok: true,
+            token,
+            usuario
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Ocurrio un error, hable con el administrador'
+        });
+    }
+});
+exports.renewToken = renewToken;
 //# sourceMappingURL=login.js.map

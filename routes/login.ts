@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { acceder } from "../controllers/login";
+import { acceder, renewToken } from "../controllers/login";
 import { check } from 'express-validator';
 import validarCampos from "../middlewares/validar-campos";
+import validarJWT from "../middlewares/validar-jwt";
 
 
 
@@ -15,6 +16,7 @@ router.post('/acceder',
     ],
     acceder);
 
+router.get('/renew', validarJWT, renewToken);
 
 
 
