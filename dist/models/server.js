@@ -17,11 +17,17 @@ const cors_1 = __importDefault(require("cors"));
 const connection_1 = __importDefault(require("../database/connection"));
 const login_1 = __importDefault(require("../routes/login"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
+const producto_1 = __importDefault(require("../routes/producto"));
+const uploads_1 = __importDefault(require("../routes/uploads"));
+const venta_1 = __importDefault(require("../routes/venta"));
 class Server {
     constructor() {
         this.apiPaths = {
             login: '/api/login',
-            usuario: '/api/usuario'
+            usuario: '/api/usuario',
+            producto: '/api/producto',
+            uploads: '/api/uploads',
+            venta: '/api/venta'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
@@ -52,7 +58,10 @@ class Server {
     }
     routes() {
         this.app.use(this.apiPaths.login, login_1.default)
-            .use(this.apiPaths.usuario, usuario_1.default);
+            .use(this.apiPaths.usuario, usuario_1.default)
+            .use(this.apiPaths.producto, producto_1.default)
+            .use(this.apiPaths.uploads, uploads_1.default)
+            .use(this.apiPaths.venta, venta_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

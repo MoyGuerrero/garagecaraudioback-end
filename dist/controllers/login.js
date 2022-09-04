@@ -58,6 +58,12 @@ const renewToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const id = req.body.id;
     try {
         const token = yield (0, jwt_1.default)(id);
+        // Usuario.belongsTo(Rol, { foreignKey: 'rol_idrol' });
+        // Rol.hasMany(Usuario, { foreignKey: 'id' });
+        // Rol.belongsTo(Rol_Modulo, { foreignKey: 'id' });
+        // Rol_Modulo.hasMany(Rol, { foreignKey: 'id' });
+        // Modulo.belongsTo(Rol_Modulo, { foreignKey: 'id' });
+        // Rol_Modulo.hasMany(Modulo, { foreignKey: 'id' });
         const usuario = yield usuario_1.default.findByPk(id);
         res.json({
             ok: true,

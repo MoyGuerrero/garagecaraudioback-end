@@ -3,7 +3,6 @@ import Usuario from '../models/usuario';
 import bcryptjs from 'bcryptjs';
 import generarJWT from "../helpers/jwt";
 
-
 export const acceder = async (req: Request, res: Response) => {
     const { usuario_, password } = req.body;
     try {
@@ -56,6 +55,16 @@ export const renewToken = async (req: Request, res: Response) => {
 
     try {
         const token = await generarJWT(id);
+
+        // Usuario.belongsTo(Rol, { foreignKey: 'rol_idrol' });
+        // Rol.hasMany(Usuario, { foreignKey: 'id' });
+
+
+        // Rol.belongsTo(Rol_Modulo, { foreignKey: 'id' });
+        // Rol_Modulo.hasMany(Rol, { foreignKey: 'id' });
+
+        // Modulo.belongsTo(Rol_Modulo, { foreignKey: 'id' });
+        // Rol_Modulo.hasMany(Modulo, { foreignKey: 'id' });
 
         const usuario = await Usuario.findByPk(id);
 

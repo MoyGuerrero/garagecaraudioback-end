@@ -4,6 +4,9 @@ import cors from "cors";
 import db from "../database/connection";
 import login from '../routes/login';
 import usuario from "../routes/usuario";
+import producto from "../routes/producto";
+import uploads from "../routes/uploads";
+import venta from "../routes/venta";
 
 class Server {
 
@@ -12,7 +15,10 @@ class Server {
 
     private apiPaths = {
         login: '/api/login',
-        usuario: '/api/usuario'
+        usuario: '/api/usuario',
+        producto: '/api/producto',
+        uploads: '/api/uploads',
+        venta: '/api/venta'
     }
 
     constructor() {
@@ -54,7 +60,10 @@ class Server {
 
     routes() {
         this.app.use(this.apiPaths.login, login)
-            .use(this.apiPaths.usuario, usuario);
+            .use(this.apiPaths.usuario, usuario)
+            .use(this.apiPaths.producto, producto)
+            .use(this.apiPaths.uploads, uploads)
+            .use(this.apiPaths.venta, venta);
     }
 
     listen() {

@@ -26,16 +26,15 @@ export const agregar_usuario = async (req: Request, res: Response) => {
             password,
             rol_idrol
         }
-
         // Se encripta la contraseña
         const salt = bcryptjs.genSaltSync();
         datos.password = bcryptjs.hashSync(password, salt);
 
         const usuarioNuevo = await Usuario.create(datos);
-
         res.json({
             ok: true,
             msg: 'Guardado con exito'
+
         });
 
     } catch (error) {
