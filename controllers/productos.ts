@@ -52,6 +52,27 @@ export const obtener_producto = async (req: Request, res: Response) => {
 
         const producto = await Producto.findOne({ where: { codigo }, include: [{ model: Precio }] });
 
+
+        if (producto === null) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe ese producto con ese codigo'
+            })
+        }
+
+        if (producto.getDataValue('stock') === 0) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No hay en el inventario'
+            })
+        }
+        if (!producto.getDataValue('activo')) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Ya no se maneja ese producto'
+            })
+        }
+
         res.json({
             ok: true,
             producto

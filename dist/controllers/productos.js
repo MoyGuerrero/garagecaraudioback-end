@@ -48,6 +48,24 @@ const obtener_producto = (req, res) => __awaiter(void 0, void 0, void 0, functio
         producto_1.default.belongsTo(precio_1.default, { foreignKey: 'idprecio' });
         precio_1.default.hasMany(producto_1.default, { foreignKey: 'id' });
         const producto = yield producto_1.default.findOne({ where: { codigo }, include: [{ model: precio_1.default }] });
+        if (producto === null) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe ese producto con ese codigo'
+            });
+        }
+        if (producto.getDataValue('stock') === 0) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No hay en el inventario'
+            });
+        }
+        if (!producto.getDataValue('activo')) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'Ya no se maneja ese producto'
+            });
+        }
         res.json({
             ok: true,
             producto
