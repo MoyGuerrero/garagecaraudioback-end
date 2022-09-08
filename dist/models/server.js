@@ -20,6 +20,7 @@ const usuario_1 = __importDefault(require("../routes/usuario"));
 const producto_1 = __importDefault(require("../routes/producto"));
 const uploads_1 = __importDefault(require("../routes/uploads"));
 const venta_1 = __importDefault(require("../routes/venta"));
+const precios_1 = __importDefault(require("../routes/precios"));
 class Server {
     constructor() {
         this.apiPaths = {
@@ -27,7 +28,8 @@ class Server {
             usuario: '/api/usuario',
             producto: '/api/producto',
             uploads: '/api/uploads',
-            venta: '/api/venta'
+            venta: '/api/venta',
+            precio: '/api/precios'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8000';
@@ -61,7 +63,8 @@ class Server {
             .use(this.apiPaths.usuario, usuario_1.default)
             .use(this.apiPaths.producto, producto_1.default)
             .use(this.apiPaths.uploads, uploads_1.default)
-            .use(this.apiPaths.venta, venta_1.default);
+            .use(this.apiPaths.venta, venta_1.default)
+            .use(this.apiPaths.precio, precios_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.obtener_producto = exports.agregar_producto = void 0;
+exports.obtener_productos = exports.obtener_producto = exports.agregar_producto = void 0;
 const precio_1 = __importDefault(require("../models/precio"));
 const producto_1 = __importDefault(require("../models/producto"));
 const agregar_producto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { codigo, nombre_producto, stock, talla, img, idprecio } = req.body;
+    const { codigo, nombre_producto, stock, talla, idprecio } = req.body;
+    console.log(req.body);
     try {
         const existeProducto = yield producto_1.default.findOne({ where: { codigo } });
         if (existeProducto !== null) {
@@ -26,7 +27,9 @@ const agregar_producto = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 msg: 'Actualizado con exito'
             });
         }
-        const productoNuevo = yield producto_1.default.create(req.body);
+        producto_1.default.removeAttribute('id');
+        const productoNuevo = producto_1.default.build(req.body);
+        yield productoNuevo.save();
         res.json({
             ok: true,
             msg: 'Agregado con exito',
@@ -80,4 +83,23 @@ const obtener_producto = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.obtener_producto = obtener_producto;
+const obtener_productos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        producto_1.default.belongsTo(precio_1.default, { foreignKey: 'idprecio' });
+        precio_1.default.hasMany(producto_1.default, { foreignKey: 'id' });
+        const productos = yield producto_1.default.findAll({ include: [{ model: precio_1.default }] });
+        res.json({
+            ok: true,
+            productos
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Ocurrio un error, hable con el administrador'
+        });
+    }
+});
+exports.obtener_productos = obtener_productos;
 //# sourceMappingURL=productos.js.map

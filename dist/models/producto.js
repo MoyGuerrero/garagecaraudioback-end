@@ -5,7 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../database/connection"));
-const Producto = connection_1.default.define('producto', {
+const Producto = connection_1.default.define('productos', {
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     codigo: { type: sequelize_1.DataTypes.STRING },
     nombre_producto: { type: sequelize_1.DataTypes.STRING },
     stock: { type: sequelize_1.DataTypes.INTEGER },

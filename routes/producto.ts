@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from "express-validator";
-import { agregar_producto, obtener_producto } from "../controllers/productos";
+import { agregar_producto, obtener_producto, obtener_productos } from "../controllers/productos";
 import validarCampos from "../middlewares/validar-campos";
 import validarJWT from "../middlewares/validar-jwt";
 
@@ -21,7 +21,8 @@ router.post('/agregar_producto',
     ],
     agregar_producto);
 
-router.get('/:codigo', validarJWT, obtener_producto)
+router.get('/:codigo', validarJWT, obtener_producto);
+router.get('/', validarJWT, obtener_productos);
 
 
 export default router;

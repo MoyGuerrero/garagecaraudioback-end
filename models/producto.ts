@@ -1,7 +1,12 @@
 import { DataTypes } from "sequelize";
 import db from "../database/connection";
 
-const Producto = db.define('producto', {
+const Producto = db.define('productos', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     codigo: { type: DataTypes.STRING },
     nombre_producto: { type: DataTypes.STRING },
     stock: { type: DataTypes.INTEGER },

@@ -1,13 +1,16 @@
 import { Request, Response } from "express";
 import Precio from "../models/precio";
 import Producto from '../models/producto';
+import { Sequelize } from 'sequelize';
 
 
 
 
 
 export const agregar_producto = async (req: Request, res: Response) => {
-    const { codigo, nombre_producto, stock, talla, img, idprecio } = req.body;
+    const { codigo, nombre_producto, stock, talla, idprecio } = req.body;
+
+    console.log(req.body);
     try {
 
         const existeProducto = await Producto.findOne({ where: { codigo } });
@@ -19,8 +22,9 @@ export const agregar_producto = async (req: Request, res: Response) => {
                 msg: 'Actualizado con exito'
             })
         }
-
-        const productoNuevo = await Producto.create(req.body);
+        Producto.removeAttribute('id');
+        const productoNuevo = Producto.build(req.body);
+        await productoNuevo.save();
 
 
         res.json({
@@ -84,5 +88,26 @@ export const obtener_producto = async (req: Request, res: Response) => {
             ok: false,
             msg: 'Ocurrio un error, hable con el administrador'
         })
+    }
+}
+
+export const obtener_productos = async (req: Request, res: Response) => {
+
+    try {
+        Producto.belongsTo(Precio, { foreignKey: 'idprecio' });
+        Precio.hasMany(Producto, { foreignKey: 'id' });
+        const productos = await Producto.findAll({ include: [{ model: Precio }] });
+
+        res.json({
+            ok: true,
+            productos
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Ocurrio un error, hable con el administrador'
+        });
     }
 }

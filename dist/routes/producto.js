@@ -19,5 +19,6 @@ router.post('/agregar_producto', [
     validar_campos_1.default
 ], productos_1.agregar_producto);
 router.get('/:codigo', validar_jwt_1.default, productos_1.obtener_producto);
+router.get('/', validar_jwt_1.default, productos_1.obtener_productos);
 exports.default = router;
 //# sourceMappingURL=producto.js.map

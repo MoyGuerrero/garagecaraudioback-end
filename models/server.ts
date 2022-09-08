@@ -7,6 +7,7 @@ import usuario from "../routes/usuario";
 import producto from "../routes/producto";
 import uploads from "../routes/uploads";
 import venta from "../routes/venta";
+import precios from "../routes/precios";
 
 class Server {
 
@@ -18,7 +19,8 @@ class Server {
         usuario: '/api/usuario',
         producto: '/api/producto',
         uploads: '/api/uploads',
-        venta: '/api/venta'
+        venta: '/api/venta',
+        precio: '/api/precios'
     }
 
     constructor() {
@@ -63,7 +65,8 @@ class Server {
             .use(this.apiPaths.usuario, usuario)
             .use(this.apiPaths.producto, producto)
             .use(this.apiPaths.uploads, uploads)
-            .use(this.apiPaths.venta, venta);
+            .use(this.apiPaths.venta, venta)
+            .use(this.apiPaths.precio, precios);
     }
 
     listen() {
